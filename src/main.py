@@ -25,12 +25,10 @@ convo_lens = validation.verification_token(dataset)
 # step4: 计算花费
 utils.get_cost(dataset, convo_lens)
 
+train_file_name = data_path
 # step5: 划分数据集(可选)
-# train_file_name = ''
 validation_file_name = None
 # utils.split_dataset(dataset, train_file_name, validation_file_name)
-# or
-train_file_name = dataset
 
 # step6: 上传数据
 OPENAI.init()  # change base_url api_key proxy

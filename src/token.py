@@ -4,7 +4,7 @@
 # @Author  : 雷雨
 # @File    : token.py
 # @Desc    :
-import tiktoken # for token counting
+import tiktoken  # for token counting
 import numpy as np
 
 
