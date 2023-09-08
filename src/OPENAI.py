@@ -4,6 +4,9 @@
 # @Author  : 雷雨
 # @File    : openai.py
 # @Desc    :
+import os.path
+import sys
+
 import openai
 
 
@@ -12,6 +15,8 @@ def init(
         api_key: str = None,
         proxy: str = None,
 ):
+    sys.path.insert(0, os.path.dirname(__file__))
+    sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
     for attr, value in locals().items():
         if value:
             setattr(openai, attr, value)

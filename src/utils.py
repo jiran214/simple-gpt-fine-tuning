@@ -7,6 +7,19 @@
 import json
 
 
+def dump_json(dataset, data_path):
+    with open(data_path, 'w', encoding='utf-8') as f:
+        chunk = 10
+        lines = []
+        for data in dataset:
+            lines.append(json.dumps(data) + '\n')
+            if len(lines) >= chunk:
+                f.writelines(lines)
+                lines.clear()
+        if lines:
+            f.writelines(lines)
+
+
 def load_json(data_path):
     # Load the dataset
     with open(data_path, 'r', encoding='utf-8') as f:
@@ -42,5 +55,24 @@ def get_cost(dataset, convo_lens):
     print(f"By default, you'll be charged for ~{n_epochs * n_billing_tokens_in_dataset} tokens")
 
 
-def split_dataset(dataset, train_file_name, validation_file_name):
-    return None
+def split_dataset(dataset, dataset_path, train_file_name, validation_file_name, scale=5/1):
+    """
+    split dataset
+    :param dataset_path:
+    :param dataset:
+    :param train_file_name:
+    :param validation_file_name:
+    :param scale:  n_train / n_validation
+    :example
+        dataset_path = '/Users/xiye/PycharmProjects/simple-gpt-fine-tuning/dataset'
+        dataset = load_json(dataset_path + "/toy_chat_fine_tuning.jsonl")
+        split_dataset(dataset, dataset_path, 'train.jsonl', 'test.jsonl', 2/1)
+    :return:
+    """
+    if not dataset_path.endswith('/'):
+        dataset_path = dataset_path + '/'
+    n_dataset = len(dataset)
+    n_train = int(n_dataset * scale / (scale+1))
+    # n_validation = n_dataset - n_train
+    dump_json(dataset[:n_train], dataset_path + train_file_name)
+    dump_json(dataset[n_train:], dataset_path + validation_file_name)
